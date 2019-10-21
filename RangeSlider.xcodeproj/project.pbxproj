@@ -13,6 +13,8 @@
 		5D635061235DD6E000ED0522 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D63505F235DD6E000ED0522 /* Main.storyboard */; };
 		5D635063235DD6E300ED0522 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D635062235DD6E300ED0522 /* Assets.xcassets */; };
 		5D635066235DD6E300ED0522 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D635064235DD6E300ED0522 /* LaunchScreen.storyboard */; };
+		5D63506E235DDDA200ED0522 /* RangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D63506D235DDDA200ED0522 /* RangeSlider.swift */; };
+		5D635070235DDE1900ED0522 /* RangeSliderTrackLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D63506F235DDE1900ED0522 /* RangeSliderTrackLayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		5D635062235DD6E300ED0522 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D635065235DD6E300ED0522 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5D635067235DD6E300ED0522 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5D63506D235DDDA200ED0522 /* RangeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSlider.swift; sourceTree = "<group>"; };
+		5D63506F235DDE1900ED0522 /* RangeSliderTrackLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSliderTrackLayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +67,8 @@
 				5D635062235DD6E300ED0522 /* Assets.xcassets */,
 				5D635064235DD6E300ED0522 /* LaunchScreen.storyboard */,
 				5D635067235DD6E300ED0522 /* Info.plist */,
+				5D63506D235DDDA200ED0522 /* RangeSlider.swift */,
+				5D63506F235DDE1900ED0522 /* RangeSliderTrackLayer.swift */,
 			);
 			path = RangeSlider;
 			sourceTree = "<group>";
@@ -138,6 +144,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D63506E235DDDA200ED0522 /* RangeSlider.swift in Sources */,
+				5D635070235DDE1900ED0522 /* RangeSliderTrackLayer.swift in Sources */,
 				5D63505E235DD6E000ED0522 /* ViewController.swift in Sources */,
 				5D63505A235DD6E000ED0522 /* AppDelegate.swift in Sources */,
 				5D63505C235DD6E000ED0522 /* SceneDelegate.swift in Sources */,
