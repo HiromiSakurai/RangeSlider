@@ -1,11 +1,3 @@
-//
-//  TapticEngine.swift
-//  RangeSeekSlider
-//
-//  Created by Keisuke Shoji on 2017/04/09.
-//
-//
-
 import UIKit
 
 /// Generates iOS Device vibrations by UIFeedbackGenerator.
