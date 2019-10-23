@@ -482,6 +482,8 @@ import UIKit
     }
 
     private func updateTicks() {
+        ticksLayer.ticksCount = dummyPrices.count
+        
         let barSidePadding: CGFloat = 16.0
         let yMiddle: CGFloat = (frame.height / 2.0) - (lineHeight / 2)
         let lineLeftSide: CGPoint = CGPoint(x: barSidePadding, y: yMiddle)

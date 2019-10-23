@@ -8,23 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    let rangeSlider = RangeSlider(frame: .zero)
-    let slider = UISlider()
+class ViewController: UIViewController, RangeSeekSliderDelegate {
+    let seekSlider = RangeSeekSlider(frame: .zero)
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(slider)
-        view.addSubview(rangeSlider)
-        rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)),
-                              for: .valueChanged)
-//        let time = DispatchTime.now() + 1
-//        DispatchQueue.main.asyncAfter(deadline: time) {
-//            self.rangeSlider.trackHighlightTintColor = .red
-//            self.rangeSlider.thumbImage = #imageLiteral(resourceName: "RectThumb")
-//            self.rangeSlider.highlightedThumbImage = #imageLiteral(resourceName: "HighlightedRect")
-//        }
+        seekSlider.delegate = self
+
+        view.addSubview(seekSlider)
     }
 
     override func viewDidLayoutSubviews() {
@@ -32,16 +24,21 @@ class ViewController: UIViewController {
         let width = view.bounds.width - 2 * margin
         let height: CGFloat = 30
 
-        rangeSlider.frame = CGRect(x: 0, y: 0, width: width, height: height)
-        rangeSlider.center = view.center
-
-        slider.frame = CGRect(x: 0, y: 0, width: width, height: height)
-        slider.center = CGPoint(x: rangeSlider.center.x, y: rangeSlider.center.y + 100)
+        seekSlider.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        seekSlider.center = view.center
+        seekSlider.backgroundColor = .yellow
+        seekSlider.colorBetweenHandles = .green
+        seekSlider.enableStep = true
+        seekSlider.step = 20.0
     }
 
     @objc func rangeSliderValueChanged(_ rangeSlider: RangeSlider) {
         let values = "(\(rangeSlider.lowerValue) \(rangeSlider.upperValue))"
         print("Range slider value changed: \(values)")
+    }
+
+    func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
+        //print("min: \(minValue), max: \(maxValue)")
     }
 }
 
