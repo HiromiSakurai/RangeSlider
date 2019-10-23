@@ -14,9 +14,11 @@ class TicksLayer: CALayer {
 
     var ticksCount: Int!
 
-    var stepDistance: Int {
-        return Int(bounds.width) / (ticksCount-1)
+    var stepDistance: CGFloat {
+        return bounds.width / (ticksCount-1).cgf
     }
+
+    private let tickWidth: CGFloat = 3
 
     override func draw(in ctx: CGContext) {
         guard let slider = rangeSlider else {
@@ -26,8 +28,11 @@ class TicksLayer: CALayer {
         var ticks = [CGRect]()
 
         for i in 0...ticksCount - 1 {
-            let xPos = i == ticksCount ? i*stepDistance - 3 : i*stepDistance
-            let tick = CGRect(x: xPos.cgflo, y: 0, width: 3, height: bounds.height)
+            var xPos = i.cgf * stepDistance
+            if i == (ticksCount - 1) {
+                xPos = xPos - tickWidth // make last tick visible
+            }
+            let tick = CGRect(x: xPos, y: 0, width: tickWidth, height: bounds.height)
             ticks.append(tick)
         }
 
@@ -35,11 +40,11 @@ class TicksLayer: CALayer {
             let path = UIBezierPath(rect: tickRect)
             ctx.addPath(path.cgPath)
 
+            let tickValue: Float = Float((slider.maxValue.i/(ticksCount-1))*index)
+
             var color: CGColor
 
-            let tickValue: Float = Float((100/(ticksCount-1))*index)
-
-            //print("tickValue: \(tickValue), min: \(selectedValue.0), max: \(selectedValue.1), index:\(index)")
+            //print("tickValue: \(tickValue), min: \(slider.selectedMinValue), max: \(slider.selectedMaxValue), index:\(index)")
             if slider.selectedMinValue.f <= tickValue && tickValue <= slider.selectedMaxValue.f {
                 color = UIColor.green.cgColor
             }  else {
@@ -54,7 +59,7 @@ class TicksLayer: CALayer {
 }
 
 extension Int {
-    var cgflo: CGFloat {
+    var cgf: CGFloat {
         return CGFloat(self)
     }
 }
@@ -62,5 +67,9 @@ extension Int {
 extension CGFloat {
     var f: Float {
         return Float(self)
+    }
+
+    var i: Int {
+        return Int(self)
     }
 }

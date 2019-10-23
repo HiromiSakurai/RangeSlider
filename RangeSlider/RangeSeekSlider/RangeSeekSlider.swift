@@ -2,7 +2,12 @@ import UIKit
 
 @IBDesignable open class RangeSeekSlider: UIControl {
 
-    var dummyPrices: [Int] = [0, 200, 400, 600, 800, 1000]
+    var dataSource: [Int] = [] {
+        didSet {
+            maxValue = (20 * (dataSource.count - 1)).cgf
+            selectedMaxValue = maxValue
+        }
+    }
 
     // MARK: - initializers
 
@@ -141,11 +146,11 @@ import UIKit
     }
 
     /// If true the control will snap to point at each step between minValue and maxValue. Default is false.
-    @IBInspectable open var enableStep: Bool = false
+    @IBInspectable open var enableStep: Bool = true
 
     /// The step value, this control the value of each step. If not set the default is 0.0.
     /// (note: this is ignored if <= 0.0)
-    @IBInspectable open var step: CGFloat = 0.0
+    @IBInspectable open var step: CGFloat = 20
 
     /// Handle slider with custom image, you can set custom image for your handle
     @IBInspectable open var handleImage: UIImage? {
@@ -487,7 +492,7 @@ import UIKit
     }
 
     private func updateTicks() {
-        ticksLayer.ticksCount = dummyPrices.count
+        ticksLayer.ticksCount = dataSource.count
 
         let barSidePadding: CGFloat = 16.0
         let yMiddle: CGFloat = (frame.height / 2.0) - (lineHeight / 2)
@@ -691,7 +696,8 @@ import UIKit
 
         // update the delegate
         if let delegate = delegate, handleTracking != .none {
-            delegate.rangeSeekSlider(self, didChange: selectedMinValue, maxValue: selectedMaxValue)
+            //delegate.rangeSeekSlider(self, didChange: selectedMinValue, maxValue: selectedMaxValue)
+            sendActions(for: .valueChanged)
         }
     }
 
