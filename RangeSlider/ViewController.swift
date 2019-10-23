@@ -11,12 +11,23 @@ import UIKit
 class ViewController: UIViewController, RangeSeekSliderDelegate {
     let seekSlider = RangeSeekSlider(frame: .zero)
 
+    let priceLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        seekSlider.delegate = self
 
+        seekSlider.delegate = self
+        seekSlider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)), for: .valueChanged)
         view.addSubview(seekSlider)
+
+        view.addSubview(priceLabel)
+        priceLabel.topAnchor.constraint(equalTo: seekSlider.bottomAnchor, constant: 100).isActive = true
+        priceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
 
     override func viewDidLayoutSubviews() {
@@ -28,13 +39,12 @@ class ViewController: UIViewController, RangeSeekSliderDelegate {
         seekSlider.center = view.center
         seekSlider.backgroundColor = .yellow
         seekSlider.colorBetweenHandles = .green
-        seekSlider.enableStep = true
-        seekSlider.step = 20.0
+        seekSlider.dataSource = [0, 500, 1000, 2000, 4000, 6000, 8000, 10000]
     }
 
-    @objc func rangeSliderValueChanged(_ rangeSlider: RangeSlider) {
-        let values = "(\(rangeSlider.lowerValue) \(rangeSlider.upperValue))"
-        print("Range slider value changed: \(values)")
+    @objc func rangeSliderValueChanged(_ rangeSlider: RangeSeekSlider) {
+        //print("value changed --- min:\(rangeSlider.selectedMinValue) max:\(rangeSlider.selectedMaxValue)")
+        priceLabel.text = "\(rangeSlider.selectedMinValue)$ ~ \(rangeSlider.selectedMaxValue)$"
     }
 
     func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
