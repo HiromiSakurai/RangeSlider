@@ -1,11 +1,3 @@
-//
-//  RangeSeekSlider.swift
-//  RangeSeekSlider
-//
-//  Created by Keisuke Shoji on 2017/03/09.
-//
-//
-
 import UIKit
 
 @IBDesignable open class RangeSeekSlider: UIControl {
@@ -133,9 +125,6 @@ import UIKit
     /// Handle slider with custom color, you can set custom color for your handle
     @IBInspectable open var handleColor: UIColor?
 
-    /// Handle slider with custom border color, you can set custom border color for your handle
-    @IBInspectable open var handleBorderColor: UIColor?
-
     /// Set slider line tint color between handles
     @IBInspectable open var colorBetweenHandles: UIColor?
 
@@ -234,8 +223,24 @@ import UIKit
 
     private let ticksLayer: TicksLayer = TicksLayer()
 
-    private let leftHandle: CALayer = CALayer()
-    private let rightHandle: CALayer = CALayer()
+    private let leftHandle: CALayer = {
+        let layer = CALayer()
+        layer.backgroundColor = UIColor.white.cgColor
+        layer.borderColor = UIColor.lightGray.cgColor
+        layer.shadowOpacity = 0.5
+        layer.shadowOffset = CGSize(width: 0, height: 1)
+        layer.shadowRadius = 1
+        return layer
+    }()
+    private let rightHandle: CALayer = {
+        let layer = CALayer()
+        layer.backgroundColor = UIColor.white.cgColor
+        layer.borderColor = UIColor.lightGray.cgColor
+        layer.shadowOpacity = 0.5
+        layer.shadowOffset = CGSize(width: 0, height: 1)
+        layer.shadowRadius = 1
+        return layer
+    }()
 
     fileprivate let minLabel: CATextLayer = CATextLayer()
     fileprivate let maxLabel: CATextLayer = CATextLayer()
@@ -529,29 +534,12 @@ import UIKit
             maxLabel.foregroundColor = initialColor
             sliderLineBetweenHandles.backgroundColor = initialColor
             sliderLine.backgroundColor = initialColor
-
-            let color: CGColor = (handleImage == nil) ? initialColor : UIColor.clear.cgColor
-            leftHandle.backgroundColor = color
-            leftHandle.borderColor = color
-            rightHandle.backgroundColor = color
-            rightHandle.borderColor = color
         } else {
             let tintCGColor: CGColor = tintColor.cgColor
             minLabel.foregroundColor = minLabelColor?.cgColor ?? tintCGColor
             maxLabel.foregroundColor = maxLabelColor?.cgColor ?? tintCGColor
             sliderLineBetweenHandles.backgroundColor = colorBetweenHandles?.cgColor ?? tintCGColor
             sliderLine.backgroundColor = tintCGColor
-
-            let color: CGColor
-            if let _ = handleImage {
-                color = UIColor.clear.cgColor
-            } else {
-                color = handleColor?.cgColor ?? tintCGColor
-            }
-            leftHandle.backgroundColor = color
-            leftHandle.borderColor = handleBorderColor.map { $0.cgColor }
-            rightHandle.backgroundColor = color
-            rightHandle.borderColor = handleBorderColor.map { $0.cgColor }
         }
     }
 
