@@ -21,6 +21,7 @@
 		5D635082235E0EAB00ED0522 /* TapticEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D63507F235E0EAB00ED0522 /* TapticEngine.swift */; };
 		5D635083235E0EAB00ED0522 /* RangeSeekSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D635080235E0EAB00ED0522 /* RangeSeekSlider.swift */; };
 		5D635084235E0EAB00ED0522 /* RangeSeekSliderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D635081235E0EAB00ED0522 /* RangeSeekSliderDelegate.swift */; };
+		5DCB91A123604DD200B8C9EB /* TicksLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCB91A023604DD200B8C9EB /* TicksLayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		5D63507F235E0EAB00ED0522 /* TapticEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TapticEngine.swift; sourceTree = "<group>"; };
 		5D635080235E0EAB00ED0522 /* RangeSeekSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeSeekSlider.swift; sourceTree = "<group>"; };
 		5D635081235E0EAB00ED0522 /* RangeSeekSliderDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeSeekSliderDelegate.swift; sourceTree = "<group>"; };
+		5DCB91A023604DD200B8C9EB /* TicksLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicksLayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 				5D635067235DD6E300ED0522 /* Info.plist */,
 				5D63506D235DDDA200ED0522 /* RangeSlider.swift */,
 				5D63506F235DDE1900ED0522 /* RangeSliderTrackLayer.swift */,
+				5DCB91A023604DD200B8C9EB /* TicksLayer.swift */,
 				5D635071235E0AD400ED0522 /* TGPControls */,
 				5D63507E235E0E7500ED0522 /* RangeSeekSlider */,
 			);
@@ -184,6 +187,7 @@
 				5D635070235DDE1900ED0522 /* RangeSliderTrackLayer.swift in Sources */,
 				5D63505E235DD6E000ED0522 /* ViewController.swift in Sources */,
 				5D63507B235E0CF400ED0522 /* TGPDiscreteSlider.swift in Sources */,
+				5DCB91A123604DD200B8C9EB /* TicksLayer.swift in Sources */,
 				5D635083235E0EAB00ED0522 /* RangeSeekSlider.swift in Sources */,
 				5D63505A235DD6E000ED0522 /* AppDelegate.swift in Sources */,
 				5D63505C235DD6E000ED0522 /* SceneDelegate.swift in Sources */,
