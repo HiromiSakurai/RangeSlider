@@ -13,7 +13,6 @@ class TicksLayer: CALayer {
     weak var rangeSlider: RangeSeekSlider?
 
     var ticksCount: Int!
-    var selectedValue: (CGFloat, CGFloat)!
 
     var stepDistance: Int {
         return Int(bounds.width) / (ticksCount-1)

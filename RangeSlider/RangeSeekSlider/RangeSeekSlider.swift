@@ -94,7 +94,7 @@ import UIKit
     }()
 
     /// Hides the labels above the slider controls. true = labels will be hidden. false = labels will be shown. Default is false.
-    @IBInspectable open var hideLabels: Bool = false {
+    @IBInspectable open var hideLabels: Bool = true {
         didSet {
             minLabel.isHidden = hideLabels
             maxLabel.isHidden = hideLabels
@@ -175,7 +175,7 @@ import UIKit
     }
 
     /// Handle diameter (default 16.0)
-    @IBInspectable open var handleDiameter: CGFloat = 16.0 {
+    @IBInspectable open var handleDiameter: CGFloat = 20.0 {
         didSet {
             leftHandle.cornerRadius = handleDiameter / 2.0
             rightHandle.cornerRadius = handleDiameter / 2.0
@@ -185,10 +185,10 @@ import UIKit
     }
 
     /// Selected handle diameter multiplier (default 1.7)
-    @IBInspectable open var selectedHandleDiameterMultiplier: CGFloat = 1.7
+    //@IBInspectable open var selectedHandleDiameterMultiplier: CGFloat = 1.7
 
     /// Set the slider line height (default 1.0)
-    @IBInspectable open var lineHeight: CGFloat = 1.0 {
+    @IBInspectable open var lineHeight: CGFloat = 2.0 {
         didSet {
             updateLineHeight()
         }
@@ -314,8 +314,8 @@ import UIKit
         } else {
             handleTracking = .right
         }
-        let handle: CALayer = (handleTracking == .left) ? leftHandle : rightHandle
-        animate(handle: handle, selected: true)
+        //let handle: CALayer = (handleTracking == .left) ? leftHandle : rightHandle
+        //animate(handle: handle, selected: true)
 
         delegate?.didStartTouches(in: self)
 
@@ -354,8 +354,8 @@ import UIKit
     }
 
     open override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        let handle: CALayer = (handleTracking == .left) ? leftHandle : rightHandle
-        animate(handle: handle, selected: false)
+        //let handle: CALayer = (handleTracking == .left) ? leftHandle : rightHandle
+        //animate(handle: handle, selected: false)
         handleTracking = .none
 
         delegate?.didEndTouches(in: self)
@@ -460,7 +460,7 @@ import UIKit
 
     private func updateLineHeight() {
         let barSidePadding: CGFloat = 16.0
-        let yMiddle: CGFloat = frame.height / 2.0
+        let yMiddle: CGFloat = (frame.height / 2.0) - (lineHeight / 2)
         let lineLeftSide: CGPoint = CGPoint(x: barSidePadding, y: yMiddle)
         let lineRightSide: CGPoint = CGPoint(x: frame.width - barSidePadding,
                                              y: yMiddle)
@@ -681,24 +681,24 @@ import UIKit
         }
     }
 
-    private func animate(handle: CALayer, selected: Bool) {
-        let transform: CATransform3D
-        if selected {
-            transform = CATransform3DMakeScale(selectedHandleDiameterMultiplier, selectedHandleDiameterMultiplier, 1.0)
-        } else {
-            transform = CATransform3DIdentity
-        }
-
-        CATransaction.begin()
-        CATransaction.setAnimationDuration(0.3)
-        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
-        handle.transform = transform
-
-        // the label above the handle will need to move too if the handle changes size
-        updateLabelPositions()
-
-        CATransaction.commit()
-    }
+//    private func animate(handle: CALayer, selected: Bool) {
+//        let transform: CATransform3D
+//        if selected {
+//            transform = CATransform3DMakeScale(selectedHandleDiameterMultiplier, selectedHandleDiameterMultiplier, 1.0)
+//        } else {
+//            transform = CATransform3DIdentity
+//        }
+//
+//        CATransaction.begin()
+//        CATransaction.setAnimationDuration(0.3)
+//        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
+//        handle.transform = transform
+//
+//        // the label above the handle will need to move too if the handle changes size
+//        updateLabelPositions()
+//
+//        CATransaction.commit()
+//    }
 }
 
 
