@@ -10,6 +10,8 @@ import UIKit
 
 @IBDesignable open class RangeSeekSlider: UIControl {
 
+    var dummyPrices: [Int] = [0, 200, 400, 600, 800, 1000]
+
     // MARK: - initializers
 
     public required init?(coder aDecoder: NSCoder) {
@@ -230,6 +232,8 @@ import UIKit
     private let sliderLine: CALayer = CALayer()
     private let sliderLineBetweenHandles: CALayer = CALayer()
 
+    private let ticksLayer: TicksLayer = TicksLayer()
+
     private let leftHandle: CALayer = CALayer()
     private let rightHandle: CALayer = CALayer()
 
@@ -284,6 +288,7 @@ import UIKit
             updateColors()
             updateHandlePositions()
             updateLabelPositions()
+            updateTicks()
         }
     }
 
@@ -396,6 +401,10 @@ import UIKit
         // draw the track distline
         layer.addSublayer(sliderLineBetweenHandles)
 
+        // draw the ticks
+        layer.addSublayer(ticksLayer)
+        ticksLayer.rangeSlider = self
+
         // draw the minimum slider handle
         leftHandle.cornerRadius = handleDiameter / 2.0
         leftHandle.borderWidth = handleBorderWidth
@@ -470,6 +479,20 @@ import UIKit
                                   height: lineHeight)
         sliderLine.cornerRadius = lineHeight / 2.0
         sliderLineBetweenHandles.cornerRadius = sliderLine.cornerRadius
+    }
+
+    private func updateTicks() {
+        let barSidePadding: CGFloat = 16.0
+        let yMiddle: CGFloat = (frame.height / 2.0) - (lineHeight / 2)
+        let lineLeftSide: CGPoint = CGPoint(x: barSidePadding, y: yMiddle)
+        let lineRightSide: CGPoint = CGPoint(x: frame.width - barSidePadding,
+                                             y: yMiddle)
+        ticksLayer.frame = CGRect(x: lineLeftSide.x,
+                            y: bounds.maxY / 4,
+                            width: lineRightSide.x - lineLeftSide.x,
+                            height: bounds.height / 2)
+        ticksLayer.setNeedsDisplay()
+
     }
 
     private func updateLabelValues() {
@@ -669,6 +692,7 @@ import UIKit
         CATransaction.setDisableActions(true)
         updateHandlePositions()
         updateLabelPositions()
+        updateTicks()
         CATransaction.commit()
 
         updateLabelValues()
