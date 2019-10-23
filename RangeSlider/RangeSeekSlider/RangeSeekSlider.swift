@@ -488,16 +488,16 @@ import UIKit
 
     private func updateTicks() {
         ticksLayer.ticksCount = dummyPrices.count
-        
+
         let barSidePadding: CGFloat = 16.0
         let yMiddle: CGFloat = (frame.height / 2.0) - (lineHeight / 2)
         let lineLeftSide: CGPoint = CGPoint(x: barSidePadding, y: yMiddle)
         let lineRightSide: CGPoint = CGPoint(x: frame.width - barSidePadding,
                                              y: yMiddle)
         ticksLayer.frame = CGRect(x: lineLeftSide.x,
-                            y: bounds.maxY / 4,
+                            y: bounds.maxY / 3,
                             width: lineRightSide.x - lineLeftSide.x,
-                            height: bounds.height / 2)
+                            height: bounds.height / 3)
         ticksLayer.setNeedsDisplay()
 
     }
