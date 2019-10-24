@@ -152,18 +152,20 @@ final class RangeSeekSlider: UIControl {
         let layer = CALayer()
         layer.backgroundColor = UIColor.white.cgColor
         layer.borderColor = UIColor.lightGray.cgColor
-        layer.shadowOpacity = 0.5
-        layer.shadowOffset = CGSize(width: 0, height: 1)
-        layer.shadowRadius = 1
+        layer.shadowOpacity = 0.3
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+        layer.shadowRadius = 2
+        layer.borderWidth = 0.1
         return layer
     }()
     private let rightHandle: CALayer = {
         let layer = CALayer()
         layer.backgroundColor = UIColor.white.cgColor
         layer.borderColor = UIColor.lightGray.cgColor
-        layer.shadowOpacity = 0.5
-        layer.shadowOffset = CGSize(width: 0, height: 1)
-        layer.shadowRadius = 1
+        layer.shadowOpacity = 0.3
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+        layer.shadowRadius = 2
+        layer.borderWidth = 0.1
         return layer
     }()
 
