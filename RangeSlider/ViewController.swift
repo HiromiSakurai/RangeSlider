@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let seekSlider = RangeSlider(frame: .zero)
+    let rangeSlider = RangeSlider(frame: .zero)
 
     let priceLabel: UILabel = {
         let label = UILabel()
@@ -21,23 +21,23 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        seekSlider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)), for: .valueChanged)
-        view.addSubview(seekSlider)
+        rangeSlider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)), for: .valueChanged)
+        view.addSubview(rangeSlider)
 
         view.addSubview(priceLabel)
-        priceLabel.topAnchor.constraint(equalTo: seekSlider.bottomAnchor, constant: 100).isActive = true
+        priceLabel.topAnchor.constraint(equalTo: rangeSlider.bottomAnchor, constant: 100).isActive = true
         priceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
         let margin: CGFloat = 20
         let width = view.bounds.width - 2 * margin
         let height: CGFloat = 30
 
-        seekSlider.frame = CGRect(x: 0, y: 0, width: width, height: height)
-        seekSlider.center = view.center
+        rangeSlider.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        rangeSlider.center = view.center
         //seekSlider.backgroundColor = .blue
-        seekSlider.colorBetweenThumbs = .cyan
-        seekSlider.sliderColor = .brown
-        seekSlider.dataSource = [0, 500, 1000, 2000, 4000, 6000, 8000, 10000]
+        rangeSlider.colorBetweenThumbs = .cyan
+        rangeSlider.sliderColor = .brown
+        rangeSlider.dataSource = [0, 500, 1000, 2000, 4000, 6000, 8000, 10000]
     }
 
     @objc func rangeSliderValueChanged(_ rangeSlider: RangeSlider) {
