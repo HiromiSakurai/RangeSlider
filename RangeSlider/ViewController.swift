@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, RangeSeekSliderDelegate {
+class ViewController: UIViewController {
     let seekSlider = RangeSeekSlider(frame: .zero)
 
     let priceLabel: UILabel = {
@@ -21,7 +21,6 @@ class ViewController: UIViewController, RangeSeekSliderDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        seekSlider.delegate = self
         seekSlider.addTarget(self, action: #selector(rangeSliderValueChanged(_:)), for: .valueChanged)
         view.addSubview(seekSlider)
 
@@ -37,18 +36,15 @@ class ViewController: UIViewController, RangeSeekSliderDelegate {
 
         seekSlider.frame = CGRect(x: 0, y: 0, width: width, height: height)
         seekSlider.center = view.center
-        seekSlider.backgroundColor = .yellow
-        seekSlider.colorBetweenHandles = .green
+        //seekSlider.backgroundColor = .blue
+        seekSlider.colorBetweenHandles = .cyan
+        seekSlider.sliderColor = .brown
         seekSlider.dataSource = [0, 500, 1000, 2000, 4000, 6000, 8000, 10000]
     }
 
     @objc func rangeSliderValueChanged(_ rangeSlider: RangeSeekSlider) {
         //print("value changed --- min:\(rangeSlider.selectedMinValue) max:\(rangeSlider.selectedMaxValue)")
-        priceLabel.text = "\(rangeSlider.selectedMinValue)$ ~ \(rangeSlider.selectedMaxValue)$"
-    }
-
-    func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
-        //print("min: \(minValue), max: \(maxValue)")
+        priceLabel.text = "\(rangeSlider.selectedPrice.lower)$ ~ \(rangeSlider.selectedPrice.higher)$"
     }
 }
 

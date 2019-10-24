@@ -13,14 +13,8 @@
 		5D635061235DD6E000ED0522 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D63505F235DD6E000ED0522 /* Main.storyboard */; };
 		5D635063235DD6E300ED0522 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D635062235DD6E300ED0522 /* Assets.xcassets */; };
 		5D635066235DD6E300ED0522 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D635064235DD6E300ED0522 /* LaunchScreen.storyboard */; };
-		5D63506E235DDDA200ED0522 /* RangeSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D63506D235DDDA200ED0522 /* RangeSlider.swift */; };
-		5D635070235DDE1900ED0522 /* RangeSliderTrackLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D63506F235DDE1900ED0522 /* RangeSliderTrackLayer.swift */; };
-		5D63507B235E0CF400ED0522 /* TGPDiscreteSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D635078235E0CF400ED0522 /* TGPDiscreteSlider.swift */; };
-		5D63507C235E0CF400ED0522 /* TGPControlsTicksProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D635079235E0CF400ED0522 /* TGPControlsTicksProtocol.swift */; };
-		5D63507D235E0CF400ED0522 /* TGPCamelLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D63507A235E0CF400ED0522 /* TGPCamelLabels.swift */; };
 		5D635082235E0EAB00ED0522 /* TapticEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D63507F235E0EAB00ED0522 /* TapticEngine.swift */; };
 		5D635083235E0EAB00ED0522 /* RangeSeekSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D635080235E0EAB00ED0522 /* RangeSeekSlider.swift */; };
-		5D635084235E0EAB00ED0522 /* RangeSeekSliderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D635081235E0EAB00ED0522 /* RangeSeekSliderDelegate.swift */; };
 		5DCB91A123604DD200B8C9EB /* TicksLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCB91A023604DD200B8C9EB /* TicksLayer.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,14 +27,8 @@
 		5D635062235DD6E300ED0522 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D635065235DD6E300ED0522 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5D635067235DD6E300ED0522 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5D63506D235DDDA200ED0522 /* RangeSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSlider.swift; sourceTree = "<group>"; };
-		5D63506F235DDE1900ED0522 /* RangeSliderTrackLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSliderTrackLayer.swift; sourceTree = "<group>"; };
-		5D635078235E0CF400ED0522 /* TGPDiscreteSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGPDiscreteSlider.swift; sourceTree = "<group>"; };
-		5D635079235E0CF400ED0522 /* TGPControlsTicksProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGPControlsTicksProtocol.swift; sourceTree = "<group>"; };
-		5D63507A235E0CF400ED0522 /* TGPCamelLabels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGPCamelLabels.swift; sourceTree = "<group>"; };
 		5D63507F235E0EAB00ED0522 /* TapticEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TapticEngine.swift; sourceTree = "<group>"; };
 		5D635080235E0EAB00ED0522 /* RangeSeekSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeSeekSlider.swift; sourceTree = "<group>"; };
-		5D635081235E0EAB00ED0522 /* RangeSeekSliderDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeSeekSliderDelegate.swift; sourceTree = "<group>"; };
 		5DCB91A023604DD200B8C9EB /* TicksLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicksLayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,30 +69,16 @@
 				5D635062235DD6E300ED0522 /* Assets.xcassets */,
 				5D635064235DD6E300ED0522 /* LaunchScreen.storyboard */,
 				5D635067235DD6E300ED0522 /* Info.plist */,
-				5D63506D235DDDA200ED0522 /* RangeSlider.swift */,
-				5D63506F235DDE1900ED0522 /* RangeSliderTrackLayer.swift */,
 				5DCB91A023604DD200B8C9EB /* TicksLayer.swift */,
-				5D635071235E0AD400ED0522 /* TGPControls */,
 				5D63507E235E0E7500ED0522 /* RangeSeekSlider */,
 			);
 			path = RangeSlider;
-			sourceTree = "<group>";
-		};
-		5D635071235E0AD400ED0522 /* TGPControls */ = {
-			isa = PBXGroup;
-			children = (
-				5D63507A235E0CF400ED0522 /* TGPCamelLabels.swift */,
-				5D635079235E0CF400ED0522 /* TGPControlsTicksProtocol.swift */,
-				5D635078235E0CF400ED0522 /* TGPDiscreteSlider.swift */,
-			);
-			path = TGPControls;
 			sourceTree = "<group>";
 		};
 		5D63507E235E0E7500ED0522 /* RangeSeekSlider */ = {
 			isa = PBXGroup;
 			children = (
 				5D635080235E0EAB00ED0522 /* RangeSeekSlider.swift */,
-				5D635081235E0EAB00ED0522 /* RangeSeekSliderDelegate.swift */,
 				5D63507F235E0EAB00ED0522 /* TapticEngine.swift */,
 			);
 			path = RangeSeekSlider;
@@ -181,18 +155,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D63506E235DDDA200ED0522 /* RangeSlider.swift in Sources */,
 				5D635082235E0EAB00ED0522 /* TapticEngine.swift in Sources */,
-				5D63507C235E0CF400ED0522 /* TGPControlsTicksProtocol.swift in Sources */,
-				5D635070235DDE1900ED0522 /* RangeSliderTrackLayer.swift in Sources */,
 				5D63505E235DD6E000ED0522 /* ViewController.swift in Sources */,
-				5D63507B235E0CF400ED0522 /* TGPDiscreteSlider.swift in Sources */,
 				5DCB91A123604DD200B8C9EB /* TicksLayer.swift in Sources */,
 				5D635083235E0EAB00ED0522 /* RangeSeekSlider.swift in Sources */,
 				5D63505A235DD6E000ED0522 /* AppDelegate.swift in Sources */,
 				5D63505C235DD6E000ED0522 /* SceneDelegate.swift in Sources */,
-				5D635084235E0EAB00ED0522 /* RangeSeekSliderDelegate.swift in Sources */,
-				5D63507D235E0CF400ED0522 /* TGPCamelLabels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
