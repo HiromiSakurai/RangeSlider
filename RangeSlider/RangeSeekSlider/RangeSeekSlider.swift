@@ -36,8 +36,6 @@ final class RangeSeekSlider: UIControl {
 
     private(set) var selectedPrice: (lower: Int, higher: Int) = (0, 0)
 
-    weak var delegate: RangeSeekSliderDelegate?
-
     /// The minimum possible value to select in the range
     var minValue: CGFloat = 0.0 {
         didSet {
@@ -237,8 +235,6 @@ final class RangeSeekSlider: UIControl {
             handleTracking = .right
         }
 
-        delegate?.didStartTouches(in: self)
-
         return true
     }
 
@@ -275,8 +271,6 @@ final class RangeSeekSlider: UIControl {
 
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         handleTracking = .none
-
-        delegate?.didEndTouches(in: self)
     }
 
     // MARK: - private methods
@@ -447,11 +441,9 @@ final class RangeSeekSlider: UIControl {
 
         updateColors()
 
-        // update the delegate
-        if let delegate = delegate, handleTracking != .none {
-            //delegate.rangeSeekSlider(self, didChange: selectedMinValue, maxValue: selectedMaxValue)
-            sendActions(for: .valueChanged)
-        }
+        // send the event notification
+        guard handleTracking != .none else { return }
+        sendActions(for: .valueChanged)
     }
 }
 
