@@ -92,6 +92,7 @@ final class RangeSeekSlider: UIControl {
     private var handleTracking: HandleTracking = .none
 
     private var step: CGFloat = 20 // This control the value of each step. This value is fixed to 20.0
+    private var handleDiameter: CGFloat = 25.0
 
     private let sliderLine: CALayer = {
         let layer = CALayer()
@@ -155,16 +156,6 @@ final class RangeSeekSlider: UIControl {
             if maxDistance < 0.0 {
                 maxDistance = .greatestFiniteMagnitude
             }
-        }
-    }
-
-    /// Handle diameter (default 20.0)
-    private var handleDiameter: CGFloat = 25.0 {
-        didSet {
-            leftHandle.cornerRadius = handleDiameter / 2.0
-            rightHandle.cornerRadius = handleDiameter / 2.0
-            leftHandle.frame = CGRect(x: 0.0, y: 0.0, width: handleDiameter, height: handleDiameter)
-            rightHandle.frame = CGRect(x: 0.0, y: 0.0, width: handleDiameter, height: handleDiameter)
         }
     }
 
