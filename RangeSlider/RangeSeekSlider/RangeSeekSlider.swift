@@ -2,13 +2,6 @@ import UIKit
 
 @IBDesignable open class RangeSeekSlider: UIControl {
 
-    var dataSource: [Int] = [] {
-        didSet {
-            maxValue = (20 * (dataSource.count - 1)).cgf
-            selectedMaxValue = maxValue
-        }
-    }
-
     // MARK: - initializers
 
     public required init?(coder aDecoder: NSCoder) {
@@ -30,6 +23,16 @@ import UIKit
 
 
     // MARK: - open stored properties
+
+    var dataSource: [Int] = [] {
+        didSet {
+            maxValue = (20 * (dataSource.count - 1)).cgf
+            selectedMaxValue = maxValue
+            selectedIndex = (lower: 0, higher: dataSource.lastIndex)
+        }
+    }
+
+    private(set) var selectedPrice: (lower: Int, higher: Int) = (0, 0)
 
     open weak var delegate: RangeSeekSliderDelegate?
 
@@ -54,6 +57,9 @@ import UIKit
             if selectedMinValue < minValue {
                 selectedMinValue = minValue
             }
+            let minSelectedIndex = (selectedMinValue.i / 20)
+            guard minSelectedIndex >= 0 else { return }
+            selectedIndex.lower = minSelectedIndex
         }
     }
 
@@ -64,6 +70,9 @@ import UIKit
             if selectedMaxValue > maxValue {
                 selectedMaxValue = maxValue
             }
+            let maxSelectedIndex = (selectedMaxValue.i / 20)
+            guard maxSelectedIndex <= dataSource.lastIndex else { return }
+            selectedIndex.higher = maxSelectedIndex
         }
     }
 
@@ -260,6 +269,14 @@ import UIKit
     // strong reference needed for UIAccessibilityContainer
     // see http://stackoverflow.com/questions/13462046/custom-uiview-not-showing-accessibility-on-voice-over
     private var accessibleElements: [UIAccessibilityElement] = []
+
+    private var selectedIndex: (lower: Int, higher: Int) = (0, 0) {
+        didSet {
+            guard !dataSource.isEmpty else { return }
+            selectedPrice = (lower: dataSource[selectedIndex.lower],
+                             higher: dataSource[selectedIndex.higher])
+        }
+    }
 
 
     // MARK: - private computed properties
@@ -637,6 +654,7 @@ import UIKit
         }
     }
 
+    // MARK: - refresh()
     fileprivate func refresh() {
         if enableStep && step > 0.0 {
             selectedMinValue = CGFloat(roundf(Float(selectedMinValue / step))) * step
@@ -778,5 +796,11 @@ private extension CGPoint {
         let distX: CGFloat = to.x - x
         let distY: CGFloat = to.y - y
         return sqrt(distX * distX + distY * distY)
+    }
+}
+
+extension Array where Element == Int {
+    var lastIndex: Int {
+        return self.count - 1
     }
 }
