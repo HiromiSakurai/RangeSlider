@@ -24,7 +24,7 @@ final class RangeSeekSlider: UIControl {
         setup()
     }
 
-    // MARK: - open stored properties
+    // MARK: - open properties
 
     var dataSource: [Int] = [] {
         didSet {
@@ -35,6 +35,8 @@ final class RangeSeekSlider: UIControl {
     }
 
     private(set) var selectedPrice: (lower: Int, higher: Int) = (0, 0)
+
+    // MARK: - properties for TicsLayer, dont set any value to these
 
     /// The minimum possible value to select in the range
     var minValue: CGFloat = 0.0 {
@@ -94,14 +96,11 @@ final class RangeSeekSlider: UIControl {
         }
     }
 
-    /// Handle slider with custom color, you can set custom color for your handle
-    var handleColor: UIColor?
+    /// Set slider line tint color between handles. Default is red.
+    var colorBetweenHandles: UIColor = .red
 
-    /// Set slider line tint color between handles
-    var colorBetweenHandles: UIColor?
-
-    /// The color of the entire slider when the handle is set to the minimum value and the maximum value. Default is nil.
-    var initialColor: UIColor?
+    /// Set slider line tint color. Default is red.
+    var sliderColor: UIColor = .darkGray
 
     /// If true the control will snap to point at each step between minValue and maxValue. Default is false.
     private var enableStep: Bool = true
@@ -109,24 +108,6 @@ final class RangeSeekSlider: UIControl {
     /// The step value, this control the value of each step. If not set the default is 0.0.
     /// (note: this is ignored if <= 0.0)
     var step: CGFloat = 20
-
-    /// Handle slider with custom image, you can set custom image for your handle
-    var handleImage: UIImage? {
-        didSet {
-            guard let image = handleImage else {
-                return
-            }
-            
-            var handleFrame = CGRect.zero
-            handleFrame.size = image.size
-            
-            leftHandle.frame = handleFrame
-            leftHandle.contents = image.cgImage
-
-            rightHandle.frame = handleFrame
-            rightHandle.contents = image.cgImage
-        }
-    }
 
     /// Handle diameter (default 16.0)
     var handleDiameter: CGFloat = 20.0 {
@@ -158,8 +139,17 @@ final class RangeSeekSlider: UIControl {
     private enum HandleTracking { case none, left, right }
     private var handleTracking: HandleTracking = .none
 
-    private let sliderLine: CALayer = CALayer()
-    private let sliderLineBetweenHandles: CALayer = CALayer()
+    private let sliderLine: CALayer = {
+        let layer = CALayer()
+        layer.backgroundColor = UIColor.darkGray.cgColor
+        return layer
+    }()
+
+    private let sliderLineBetweenHandles: CALayer = {
+        let layer = CALayer()
+        layer.backgroundColor = UIColor.red.cgColor
+        return layer
+    }()
 
     private let ticksLayer: TicksLayer = TicksLayer()
 
@@ -361,15 +351,8 @@ final class RangeSeekSlider: UIControl {
     }
 
     private func updateColors() {
-        let isInitial: Bool = selectedMinValue == minValue && selectedMaxValue == maxValue
-        if let initialColor = initialColor?.cgColor, isInitial {
-            sliderLineBetweenHandles.backgroundColor = initialColor
-            sliderLine.backgroundColor = initialColor
-        } else {
-            let tintCGColor: CGColor = tintColor.cgColor
-            sliderLineBetweenHandles.backgroundColor = colorBetweenHandles?.cgColor ?? tintCGColor
-            sliderLine.backgroundColor = tintCGColor
-        }
+        sliderLine.backgroundColor = sliderColor.cgColor
+        sliderLineBetweenHandles.backgroundColor = colorBetweenHandles.cgColor
     }
 
     private func updateHandlePositions() {

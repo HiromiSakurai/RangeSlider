@@ -46,9 +46,9 @@ class TicksLayer: CALayer {
 
             //print("tickValue: \(tickValue), min: \(slider.selectedMinValue), max: \(slider.selectedMaxValue), index:\(index)")
             if slider.selectedMinValue.f <= tickValue && tickValue <= slider.selectedMaxValue.f {
-                color = UIColor.green.cgColor
+                color = slider.colorBetweenHandles.cgColor
             }  else {
-                color = UIColor.blue.cgColor
+                color = slider.sliderColor.cgColor
             }
 
             ctx.setFillColor(color)
