@@ -138,6 +138,14 @@ final class RangeSlider: UIControl {
     private var previousStepMinValue: CGFloat?
     private var previousStepMaxValue: CGFloat?
 
+    private let feedbackGenerator: UISelectionFeedbackGenerator = {
+        let generator = UISelectionFeedbackGenerator()
+        generator.prepare()
+        return generator
+    }()
+
+
+    // other
     private var selectedIndex: (lower: Int, higher: Int) = (0, 0) {
         didSet {
             guard !dataSource.isEmpty else { return }
@@ -356,13 +364,13 @@ final class RangeSlider: UIControl {
         // handle step(jump) feature ------------------>
         selectedMinValue = CGFloat(roundf(Float(selectedMinValue / step))) * step
         if let previousStepMinValue = previousStepMinValue, previousStepMinValue != selectedMinValue {
-            TapticEngine.selection.feedback()
+            hapticFeedback()
         }
         previousStepMinValue = selectedMinValue
 
         selectedMaxValue = CGFloat(roundf(Float(selectedMaxValue / step))) * step
         if let previousStepMaxValue = previousStepMaxValue, previousStepMaxValue != selectedMaxValue {
-            TapticEngine.selection.feedback()
+            hapticFeedback()
         }
         previousStepMaxValue = selectedMaxValue
         // <------------------
@@ -409,6 +417,11 @@ final class RangeSlider: UIControl {
         // send the event notification
         guard handleTracking != .none else { return }
         sendActions(for: .valueChanged)
+    }
+
+    private func hapticFeedback() {
+        feedbackGenerator.selectionChanged()
+        feedbackGenerator.prepare()
     }
 }
 
