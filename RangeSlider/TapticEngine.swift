@@ -142,3 +142,4 @@ open class TapticEngine {
         }
     }
 }
+

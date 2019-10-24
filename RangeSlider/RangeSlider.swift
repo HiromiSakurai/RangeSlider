@@ -1,11 +1,12 @@
 //
-//  TicksLayer.swift
+//  RangeSlider.swift
 //  RangeSlider
 //
-//  Created by 櫻井寛海 on 2019/10/23.
+//  Created by 櫻井寛海 on 2019/10/24.
 //  Copyright © 2019 hiromi-sakurai. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 final class RangeSlider: UIControl {
@@ -346,7 +347,7 @@ final class RangeSlider: UIControl {
                                                 width: rightHandle.position.x - leftHandle.position.x,
                                                 height: lineHeight)
     }
-    
+
     private func refresh() {
         // handle step(jump) feature ------------------>
         selectedMinValue = CGFloat(roundf(Float(selectedMinValue / step))) * step
