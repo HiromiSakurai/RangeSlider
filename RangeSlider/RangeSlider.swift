@@ -36,11 +36,11 @@ final class RangeSlider: UIControl {
         }
     }
 
-    /// Set slider line tint color between thumbs. Default is red.
+    /// Set track tint color between thumbs. Default is red.
     var colorBetweenThumbs: UIColor = .red
 
-    /// Set slider line tint color. Default is dark gray.
-    var sliderColor: UIColor = .darkGray
+    /// Set track tint color. Default is dark gray.
+    var trackColor: UIColor = .darkGray
 
     /// You can get selected Prices from this tuple.
     private(set) var selectedPrice: (lower: Int, higher: Int) = (0, 0)
@@ -95,13 +95,13 @@ final class RangeSlider: UIControl {
     private var step: CGFloat = 20 // This control the value of each step. This value is always fixed to 20.0
     private var thumbDiameter: CGFloat = 25.0
 
-    private let sliderLine: CALayer = {
+    private let track: CALayer = {
         let layer = CALayer()
         layer.backgroundColor = UIColor.darkGray.cgColor
         return layer
     }()
 
-    private let sliderLineBetweenThumbs: CALayer = {
+    private let trackBetweenThumbs: CALayer = {
         let layer = CALayer()
         layer.backgroundColor = UIColor.red.cgColor
         return layer
@@ -172,7 +172,7 @@ final class RangeSlider: UIControl {
         }
     }
 
-    /// Set the slider line height (default 1.0)
+    /// Set the track height (default 1.0)
     private var lineHeight: CGFloat = 2.0 {
         didSet {
             updateLineHeight()
@@ -229,7 +229,7 @@ final class RangeSlider: UIControl {
         let location: CGPoint = touch.location(in: self)
 
         // find out the percentage along the line we are in x coordinate terms (subtracting half the frames width to account for moving the middle of the thumb, not the left hand side)
-        let percentage: CGFloat = (location.x - sliderLine.frame.minX - thumbDiameter / 2.0) / (sliderLine.frame.maxX - sliderLine.frame.minX)
+        let percentage: CGFloat = (location.x - track.frame.minX - thumbDiameter / 2.0) / (track.frame.maxX - track.frame.minX)
 
         // multiply that percentage by self.maxValue to get the new selected minimum value
         let selectedValue: CGFloat = percentage * (maxValue - minValue) + minValue
@@ -261,21 +261,21 @@ final class RangeSlider: UIControl {
     // MARK: - private methods
 
     private func setup() {
-        // draw the slider line
-        layer.addSublayer(sliderLine)
+        // draw the track
+        layer.addSublayer(track)
 
         // draw the track distline
-        layer.addSublayer(sliderLineBetweenThumbs)
+        layer.addSublayer(trackBetweenThumbs)
 
         // draw the ticks
         layer.addSublayer(ticksLayer)
         ticksLayer.rangeSlider = self
 
-        // draw the minimum slider thumb
+        // draw the minimum thumb
         leftThumb.cornerRadius = thumbDiameter / 2.0
         layer.addSublayer(leftThumb)
 
-        // draw the maximum slider thumb
+        // draw the maximum thumb
         rightThumb.cornerRadius = thumbDiameter / 2.0
         layer.addSublayer(rightThumb)
 
@@ -305,12 +305,12 @@ final class RangeSlider: UIControl {
         let percentage: CGFloat = percentageAlongLine(for: value)
 
         // get the difference between the maximum and minimum coordinate position x values (e.g if max was x = 310, and min was x=10, difference is 300)
-        let maxMinDif: CGFloat = sliderLine.frame.maxX - sliderLine.frame.minX
+        let maxMinDif: CGFloat = track.frame.maxX - track.frame.minX
 
         // now multiply the percentage by the minMaxDif to see how far along the line the point should be, and add it onto the minimum x position.
         let offset: CGFloat = percentage * maxMinDif
 
-        return sliderLine.frame.minX + offset
+        return track.frame.minX + offset
     }
 
     private func updateLineHeight() {
@@ -319,12 +319,12 @@ final class RangeSlider: UIControl {
         let lineLeftSide: CGPoint = CGPoint(x: barSidePadding, y: yMiddle)
         let lineRightSide: CGPoint = CGPoint(x: frame.width - barSidePadding,
                                              y: yMiddle)
-        sliderLine.frame = CGRect(x: lineLeftSide.x,
+        track.frame = CGRect(x: lineLeftSide.x,
                                   y: lineLeftSide.y,
                                   width: lineRightSide.x - lineLeftSide.x,
                                   height: lineHeight)
-        sliderLine.cornerRadius = lineHeight / 2.0
-        sliderLineBetweenThumbs.cornerRadius = sliderLine.cornerRadius
+        track.cornerRadius = lineHeight / 2.0
+        trackBetweenThumbs.cornerRadius = track.cornerRadius
     }
 
     private func updateTicks() {
@@ -342,20 +342,20 @@ final class RangeSlider: UIControl {
     }
 
     private func updateColors() {
-        sliderLine.backgroundColor = sliderColor.cgColor
-        sliderLineBetweenThumbs.backgroundColor = colorBetweenThumbs.cgColor
+        track.backgroundColor = trackColor.cgColor
+        trackBetweenThumbs.backgroundColor = colorBetweenThumbs.cgColor
     }
 
     private func updateThumbPositions() {
         leftThumb.position = CGPoint(x: xPositionAlongLine(for: selectedMinValue),
-                                      y: sliderLine.frame.midY)
+                                      y: track.frame.midY)
 
         rightThumb.position = CGPoint(x: xPositionAlongLine(for: selectedMaxValue),
-                                       y: sliderLine.frame.midY)
+                                       y: track.frame.midY)
 
-        // positioning for the dist slider line
-        sliderLineBetweenThumbs.frame = CGRect(x: leftThumb.position.x,
-                                                y: sliderLine.frame.minY,
+        // positioning for the dist track
+        trackBetweenThumbs.frame = CGRect(x: leftThumb.position.x,
+                                                y: track.frame.minY,
                                                 width: rightThumb.position.x - leftThumb.position.x,
                                                 height: lineHeight)
     }

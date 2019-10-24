@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         rangeSlider.center = view.center
         //seekSlider.backgroundColor = .blue
         rangeSlider.colorBetweenThumbs = .cyan
-        rangeSlider.sliderColor = .brown
+        rangeSlider.trackColor = .brown
         rangeSlider.dataSource = [0, 500, 1000, 2000, 4000, 6000, 8000, 10000]
     }
 

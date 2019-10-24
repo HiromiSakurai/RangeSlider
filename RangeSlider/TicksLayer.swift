@@ -51,7 +51,7 @@ final class TicksLayer: CALayer {
             if slider.selectedMinValue.f <= tickValue && tickValue <= slider.selectedMaxValue.f {
                 color = slider.colorBetweenThumbs.cgColor
             }  else {
-                color = slider.sliderColor.cgColor
+                color = slider.trackColor.cgColor
             }
 
             ctx.setFillColor(color)
