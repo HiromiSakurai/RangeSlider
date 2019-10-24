@@ -1,26 +1,28 @@
+//
+//  TicksLayer.swift
+//  RangeSlider
+//
+//  Created by 櫻井寛海 on 2019/10/23.
+//  Copyright © 2019 hiromi-sakurai. All rights reserved.
+//
+
 import UIKit
 
-@IBDesignable open class RangeSeekSlider: UIControl {
+final class RangeSeekSlider: UIControl {
 
     // MARK: - initializers
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
         setup()
     }
 
-    public required override init(frame: CGRect) {
+    required override init(frame: CGRect) {
         super.init(frame: frame)
 
         setup()
     }
-
-    public convenience init(frame: CGRect = .zero, completion: ((RangeSeekSlider) -> Void)? = nil) {
-        self.init(frame: frame)
-        completion?(self)
-    }
-
 
     // MARK: - open stored properties
 
@@ -34,17 +36,17 @@ import UIKit
 
     private(set) var selectedPrice: (lower: Int, higher: Int) = (0, 0)
 
-    open weak var delegate: RangeSeekSliderDelegate?
+    weak var delegate: RangeSeekSliderDelegate?
 
     /// The minimum possible value to select in the range
-    @IBInspectable open var minValue: CGFloat = 0.0 {
+    var minValue: CGFloat = 0.0 {
         didSet {
             refresh()
         }
     }
 
     /// The maximum possible value to select in the range
-    @IBInspectable open var maxValue: CGFloat = 100.0 {
+    var maxValue: CGFloat = 100.0 {
         didSet {
             refresh()
         }
@@ -52,7 +54,7 @@ import UIKit
 
     /// The preselected minumum value
     /// (note: This should be less than the selectedMaxValue)
-    @IBInspectable open var selectedMinValue: CGFloat = 0.0 {
+    var selectedMinValue: CGFloat = 0.0 {
         didSet {
             if selectedMinValue < minValue {
                 selectedMinValue = minValue
@@ -65,7 +67,7 @@ import UIKit
 
     /// The preselected maximum value
     /// (note: This should be greater than the selectedMinValue)
-    @IBInspectable open var selectedMaxValue: CGFloat = 100.0 {
+    var selectedMaxValue: CGFloat = 100.0 {
         didSet {
             if selectedMaxValue > maxValue {
                 selectedMaxValue = maxValue
@@ -76,17 +78,8 @@ import UIKit
         }
     }
 
-    /// Each handle in the slider has a label above it showing the current selected value. By default, this is displayed as a decimal format.
-    /// You can update this default here by updating properties of NumberFormatter. For example, you could supply a currency style, or a prefix or suffix.
-    open var numberFormatter: NumberFormatter = {
-        let formatter: NumberFormatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }()
-
     /// The minimum distance the two selected slider values must be apart. Default is 0.
-    @IBInspectable open var minDistance: CGFloat = 0.0 {
+    private var minDistance: CGFloat = 0.0 {
         didSet {
             if minDistance < 0.0 {
                 minDistance = 0.0
@@ -95,7 +88,7 @@ import UIKit
     }
 
     /// The maximum distance the two selected slider values must be apart. Default is CGFloat.greatestFiniteMagnitude.
-    @IBInspectable open var maxDistance: CGFloat = .greatestFiniteMagnitude {
+    private var maxDistance: CGFloat = .greatestFiniteMagnitude {
         didSet {
             if maxDistance < 0.0 {
                 maxDistance = .greatestFiniteMagnitude
@@ -104,23 +97,23 @@ import UIKit
     }
 
     /// Handle slider with custom color, you can set custom color for your handle
-    @IBInspectable open var handleColor: UIColor?
+    var handleColor: UIColor?
 
     /// Set slider line tint color between handles
-    @IBInspectable open var colorBetweenHandles: UIColor?
+    var colorBetweenHandles: UIColor?
 
     /// The color of the entire slider when the handle is set to the minimum value and the maximum value. Default is nil.
-    @IBInspectable open var initialColor: UIColor?
+    var initialColor: UIColor?
 
     /// If true the control will snap to point at each step between minValue and maxValue. Default is false.
-    @IBInspectable open var enableStep: Bool = true
+    private var enableStep: Bool = true
 
     /// The step value, this control the value of each step. If not set the default is 0.0.
     /// (note: this is ignored if <= 0.0)
-    @IBInspectable open var step: CGFloat = 20
+    var step: CGFloat = 20
 
     /// Handle slider with custom image, you can set custom image for your handle
-    @IBInspectable open var handleImage: UIImage? {
+    var handleImage: UIImage? {
         didSet {
             guard let image = handleImage else {
                 return
@@ -138,7 +131,7 @@ import UIKit
     }
 
     /// Handle diameter (default 16.0)
-    @IBInspectable open var handleDiameter: CGFloat = 20.0 {
+    var handleDiameter: CGFloat = 20.0 {
         didSet {
             leftHandle.cornerRadius = handleDiameter / 2.0
             rightHandle.cornerRadius = handleDiameter / 2.0
@@ -147,36 +140,20 @@ import UIKit
         }
     }
 
-    /// Selected handle diameter multiplier (default 1.7)
-    //@IBInspectable open var selectedHandleDiameterMultiplier: CGFloat = 1.7
-
     /// Set the slider line height (default 1.0)
-    @IBInspectable open var lineHeight: CGFloat = 2.0 {
+    var lineHeight: CGFloat = 2.0 {
         didSet {
             updateLineHeight()
         }
     }
 
     /// Handle border width (default 0.0)
-    @IBInspectable open var handleBorderWidth: CGFloat = 0.0 {
+    var handleBorderWidth: CGFloat = 0.0 {
         didSet {
             leftHandle.borderWidth = handleBorderWidth
             rightHandle.borderWidth = handleBorderWidth
         }
     }
-
-    /// The label displayed in accessibility mode for minimum value handler. If not set, the default is empty String.
-    @IBInspectable open var minLabelAccessibilityLabel: String?
-
-    /// The label displayed in accessibility mode for maximum value handler. If not set, the default is empty String.
-    @IBInspectable open var maxLabelAccessibilityLabel: String?
-
-    /// The brief description displayed in accessibility mode for minimum value handler. If not set, the default is empty String.
-    @IBInspectable open var minLabelAccessibilityHint: String?
-
-    /// The brief description displayed in accessibility mode for maximum value handler. If not set, the default is empty String.
-    @IBInspectable open var maxLabelAccessibilityHint: String?
-
 
     // MARK: - private stored properties
 
@@ -211,10 +188,6 @@ import UIKit
     private var previousStepMinValue: CGFloat?
     private var previousStepMaxValue: CGFloat?
 
-    // strong reference needed for UIAccessibilityContainer
-    // see http://stackoverflow.com/questions/13462046/custom-uiview-not-showing-accessibility-on-voice-over
-    private var accessibleElements: [UIAccessibilityElement] = []
-
     private var selectedIndex: (lower: Int, higher: Int) = (0, 0) {
         didSet {
             guard !dataSource.isEmpty else { return }
@@ -225,7 +198,7 @@ import UIKit
 
     // MARK: - UIView
 
-    open override func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
 
         if handleTracking == .none {
@@ -236,14 +209,14 @@ import UIKit
         }
     }
 
-    open override var intrinsicContentSize: CGSize {
+    override var intrinsicContentSize: CGSize {
         return CGSize(width: UIView.noIntrinsicMetric, height: 65.0)
     }
 
 
     // MARK: - UIControl
 
-    open override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+    override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         let touchLocation: CGPoint = touch.location(in: self)
         let insetExpansion: CGFloat = -30.0
         let isTouchingLeftHandle: Bool = leftHandle.frame.insetBy(dx: insetExpansion, dy: insetExpansion).contains(touchLocation)
@@ -269,7 +242,7 @@ import UIKit
         return true
     }
 
-    open override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+    override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         guard handleTracking != .none else { return false }
 
         let location: CGPoint = touch.location(in: self)
@@ -300,34 +273,11 @@ import UIKit
         return true
     }
 
-    open override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+    override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         handleTracking = .none
 
         delegate?.didEndTouches(in: self)
     }
-
-
-    // MARK: - UIAccessibility
-
-    open override func accessibilityElementCount() -> Int {
-        return accessibleElements.count
-    }
-
-    open override func accessibilityElement(at index: Int) -> Any? {
-        return accessibleElements[index]
-    }
-
-    open override func index(ofAccessibilityElement element: Any) -> Int {
-        guard let element = element as? UIAccessibilityElement else { return 0 }
-        return accessibleElements.firstIndex(of: element) ?? 0
-    }
-
-
-    // MARK: - open methods
-
-    /// When subclassing **RangeSeekSlider** and setting each item in **setupStyle()**, the design is reflected in Interface Builder as well.
-    open func setupStyle() {}
-
 
     // MARK: - private methods
 
@@ -355,8 +305,6 @@ import UIKit
         let handleFrame: CGRect = CGRect(x: 0.0, y: 0.0, width: handleDiameter, height: handleDiameter)
         leftHandle.frame = handleFrame
         rightHandle.frame = handleFrame
-
-        setupStyle()
 
         refresh()
     }
@@ -445,7 +393,7 @@ import UIKit
     }
     
     // MARK: - refresh()
-    fileprivate func refresh() {
+    private func refresh() {
         if enableStep && step > 0.0 {
             selectedMinValue = CGFloat(roundf(Float(selectedMinValue / step))) * step
             if let previousStepMinValue = previousStepMinValue, previousStepMinValue != selectedMinValue {
@@ -508,19 +456,16 @@ import UIKit
 }
 
 
-// MARK: - CGRect
+// MARK: - Extensions
 
-private extension CGRect {
+extension CGRect {
 
     var center: CGPoint {
         return CGPoint(x: midX, y: midY)
     }
 }
 
-
-// MARK: - CGPoint
-
-private extension CGPoint {
+extension CGPoint {
 
     func distance(to: CGPoint) -> CGFloat {
         let distX: CGFloat = to.x - x
@@ -532,5 +477,21 @@ private extension CGPoint {
 extension Array where Element == Int {
     var lastIndex: Int {
         return self.count - 1
+    }
+}
+
+extension Int {
+    var cgf: CGFloat {
+        return CGFloat(self)
+    }
+}
+
+extension CGFloat {
+    var f: Float {
+        return Float(self)
+    }
+
+    var i: Int {
+        return Int(self)
     }
 }

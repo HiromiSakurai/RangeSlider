@@ -14,11 +14,11 @@ class TicksLayer: CALayer {
 
     var ticksCount: Int!
 
-    var stepDistance: CGFloat {
+    private let tickWidth: CGFloat = 3
+
+    private var stepDistance: CGFloat {
         return bounds.width / (ticksCount-1).cgf
     }
-
-    private let tickWidth: CGFloat = 3
 
     override func draw(in ctx: CGContext) {
         guard let slider = rangeSlider else {
@@ -54,22 +54,5 @@ class TicksLayer: CALayer {
             ctx.setFillColor(color)
             ctx.fillPath()
         }
-
-    }
-}
-
-extension Int {
-    var cgf: CGFloat {
-        return CGFloat(self)
-    }
-}
-
-extension CGFloat {
-    var f: Float {
-        return Float(self)
-    }
-
-    var i: Int {
-        return Int(self)
     }
 }

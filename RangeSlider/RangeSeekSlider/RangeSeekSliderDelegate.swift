@@ -1,6 +1,6 @@
 import CoreGraphics
 
-public protocol RangeSeekSliderDelegate: class {
+protocol RangeSeekSliderDelegate: class {
 
     /// Called when the RangeSeekSlider values are changed
     ///
@@ -40,7 +40,7 @@ public protocol RangeSeekSliderDelegate: class {
 
 // MARK: - Default implementation
 
-public extension RangeSeekSliderDelegate {
+extension RangeSeekSliderDelegate {
 
     func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {}
     func didStartTouches(in slider: RangeSeekSlider) {}
