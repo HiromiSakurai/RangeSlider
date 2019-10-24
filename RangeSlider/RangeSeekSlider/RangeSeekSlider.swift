@@ -26,6 +26,7 @@ final class RangeSeekSlider: UIControl {
 
     // MARK: - open properties
 
+    /// Set data source as Int array e.g) [0, 500, 1000, 2000, 3000, 4000]
     var dataSource: [Int] = [] {
         didSet {
             maxValue = (20 * (dataSource.count - 1)).cgf
@@ -34,6 +35,13 @@ final class RangeSeekSlider: UIControl {
         }
     }
 
+    /// Set slider line tint color between handles. Default is red.
+    var colorBetweenHandles: UIColor = .red
+
+    /// Set slider line tint color. Default is dark gray.
+    var sliderColor: UIColor = .darkGray
+
+    /// You can get selected Prices from this tuple.
     private(set) var selectedPrice: (lower: Int, higher: Int) = (0, 0)
 
     // MARK: - properties for TicsLayer, dont set any value to these
@@ -78,56 +86,7 @@ final class RangeSeekSlider: UIControl {
         }
     }
 
-    /// The minimum distance the two selected slider values must be apart. Default is 0.
-    private var minDistance: CGFloat = 0.0 {
-        didSet {
-            if minDistance < 0.0 {
-                minDistance = 0.0
-            }
-        }
-    }
-
-    /// The maximum distance the two selected slider values must be apart. Default is CGFloat.greatestFiniteMagnitude.
-    private var maxDistance: CGFloat = .greatestFiniteMagnitude {
-        didSet {
-            if maxDistance < 0.0 {
-                maxDistance = .greatestFiniteMagnitude
-            }
-        }
-    }
-
-    /// Set slider line tint color between handles. Default is red.
-    var colorBetweenHandles: UIColor = .red
-
-    /// Set slider line tint color. Default is red.
-    var sliderColor: UIColor = .darkGray
-
-    /// Handle diameter (default 20.0)
-    var handleDiameter: CGFloat = 20.0 {
-        didSet {
-            leftHandle.cornerRadius = handleDiameter / 2.0
-            rightHandle.cornerRadius = handleDiameter / 2.0
-            leftHandle.frame = CGRect(x: 0.0, y: 0.0, width: handleDiameter, height: handleDiameter)
-            rightHandle.frame = CGRect(x: 0.0, y: 0.0, width: handleDiameter, height: handleDiameter)
-        }
-    }
-
-    /// Set the slider line height (default 1.0)
-    var lineHeight: CGFloat = 2.0 {
-        didSet {
-            updateLineHeight()
-        }
-    }
-
-    /// Handle border width (default 0.0)
-    var handleBorderWidth: CGFloat = 0.0 {
-        didSet {
-            leftHandle.borderWidth = handleBorderWidth
-            rightHandle.borderWidth = handleBorderWidth
-        }
-    }
-
-    // MARK: - private stored properties
+    // MARK: - private properties
 
     private enum HandleTracking { case none, left, right }
     private var handleTracking: HandleTracking = .none
@@ -178,6 +137,41 @@ final class RangeSeekSlider: UIControl {
             guard !dataSource.isEmpty else { return }
             selectedPrice = (lower: dataSource[selectedIndex.lower],
                              higher: dataSource[selectedIndex.higher])
+        }
+    }
+
+    /// The minimum distance the two selected slider values must be apart. Default is 0.
+    private var minDistance: CGFloat = 0.0 {
+        didSet {
+            if minDistance < 0.0 {
+                minDistance = 0.0
+            }
+        }
+    }
+
+    /// The maximum distance the two selected slider values must be apart. Default is CGFloat.greatestFiniteMagnitude.
+    private var maxDistance: CGFloat = .greatestFiniteMagnitude {
+        didSet {
+            if maxDistance < 0.0 {
+                maxDistance = .greatestFiniteMagnitude
+            }
+        }
+    }
+
+    /// Handle diameter (default 20.0)
+    private var handleDiameter: CGFloat = 25.0 {
+        didSet {
+            leftHandle.cornerRadius = handleDiameter / 2.0
+            rightHandle.cornerRadius = handleDiameter / 2.0
+            leftHandle.frame = CGRect(x: 0.0, y: 0.0, width: handleDiameter, height: handleDiameter)
+            rightHandle.frame = CGRect(x: 0.0, y: 0.0, width: handleDiameter, height: handleDiameter)
+        }
+    }
+
+    /// Set the slider line height (default 1.0)
+    private var lineHeight: CGFloat = 2.0 {
+        didSet {
+            updateLineHeight()
         }
     }
 
@@ -275,12 +269,10 @@ final class RangeSeekSlider: UIControl {
 
         // draw the minimum slider handle
         leftHandle.cornerRadius = handleDiameter / 2.0
-        leftHandle.borderWidth = handleBorderWidth
         layer.addSublayer(leftHandle)
 
         // draw the maximum slider handle
         rightHandle.cornerRadius = handleDiameter / 2.0
-        rightHandle.borderWidth = handleBorderWidth
         layer.addSublayer(rightHandle)
 
         let handleFrame: CGRect = CGRect(x: 0.0, y: 0.0, width: handleDiameter, height: handleDiameter)
