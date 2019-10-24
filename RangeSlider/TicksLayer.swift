@@ -15,11 +15,7 @@ final class TicksLayer: CALayer {
     private let tickWidth: CGFloat = 3
 
     override func draw(in ctx: CGContext) {
-        guard let slider = rangeSlider else {
-            return
-        }
-
-        guard !slider.dataSource.isEmpty else {
+        guard let slider = rangeSlider, !slider.dataSource.isEmpty else {
             return
         }
 
