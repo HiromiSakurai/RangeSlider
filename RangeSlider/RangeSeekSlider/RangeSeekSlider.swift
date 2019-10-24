@@ -102,14 +102,7 @@ final class RangeSeekSlider: UIControl {
     /// Set slider line tint color. Default is red.
     var sliderColor: UIColor = .darkGray
 
-    /// If true the control will snap to point at each step between minValue and maxValue. Default is false.
-    private var enableStep: Bool = true
-
-    /// The step value, this control the value of each step. If not set the default is 0.0.
-    /// (note: this is ignored if <= 0.0)
-    var step: CGFloat = 20
-
-    /// Handle diameter (default 16.0)
+    /// Handle diameter (default 20.0)
     var handleDiameter: CGFloat = 20.0 {
         didSet {
             leftHandle.cornerRadius = handleDiameter / 2.0
@@ -138,6 +131,8 @@ final class RangeSeekSlider: UIControl {
 
     private enum HandleTracking { case none, left, right }
     private var handleTracking: HandleTracking = .none
+
+    private var step: CGFloat = 20 // This control the value of each step. This value is fixed to 20.0
 
     private let sliderLine: CALayer = {
         let layer = CALayer()
@@ -369,21 +364,20 @@ final class RangeSeekSlider: UIControl {
                                                 height: lineHeight)
     }
     
-    // MARK: - refresh()
     private func refresh() {
-        if enableStep && step > 0.0 {
-            selectedMinValue = CGFloat(roundf(Float(selectedMinValue / step))) * step
-            if let previousStepMinValue = previousStepMinValue, previousStepMinValue != selectedMinValue {
-                TapticEngine.selection.feedback()
-            }
-            previousStepMinValue = selectedMinValue
-
-            selectedMaxValue = CGFloat(roundf(Float(selectedMaxValue / step))) * step
-            if let previousStepMaxValue = previousStepMaxValue, previousStepMaxValue != selectedMaxValue {
-                TapticEngine.selection.feedback()
-            }
-            previousStepMaxValue = selectedMaxValue
+        // handle step(jump) feature ------------------>
+        selectedMinValue = CGFloat(roundf(Float(selectedMinValue / step))) * step
+        if let previousStepMinValue = previousStepMinValue, previousStepMinValue != selectedMinValue {
+            TapticEngine.selection.feedback()
         }
+        previousStepMinValue = selectedMinValue
+
+        selectedMaxValue = CGFloat(roundf(Float(selectedMaxValue / step))) * step
+        if let previousStepMaxValue = previousStepMaxValue, previousStepMaxValue != selectedMaxValue {
+            TapticEngine.selection.feedback()
+        }
+        previousStepMaxValue = selectedMaxValue
+        // <------------------
 
         let diff: CGFloat = selectedMaxValue - selectedMinValue
 
@@ -434,14 +428,12 @@ final class RangeSeekSlider: UIControl {
 // MARK: - Extensions
 
 extension CGRect {
-
     var center: CGPoint {
         return CGPoint(x: midX, y: midY)
     }
 }
 
 extension CGPoint {
-
     func distance(to: CGPoint) -> CGFloat {
         let distX: CGFloat = to.x - x
         let distY: CGFloat = to.y - y
