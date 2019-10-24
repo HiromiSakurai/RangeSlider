@@ -107,7 +107,11 @@ final class RangeSlider: UIControl {
         return layer
     }()
 
-    private let ticksLayer: TicksLayer = TicksLayer()
+    private let ticksLayer: TicksLayer = {
+        let layer = TicksLayer()
+        layer.contentsScale = UIScreen.main.scale
+        return layer
+    }()
 
     private let leftHandle: CALayer = {
         let layer = CALayer()
