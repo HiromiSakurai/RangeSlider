@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         seekSlider.frame = CGRect(x: 0, y: 0, width: width, height: height)
         seekSlider.center = view.center
         //seekSlider.backgroundColor = .blue
-        seekSlider.colorBetweenHandles = .cyan
+        seekSlider.colorBetweenThumbs = .cyan
         seekSlider.sliderColor = .brown
         seekSlider.dataSource = [0, 500, 1000, 2000, 4000, 6000, 8000, 10000]
     }

@@ -36,8 +36,8 @@ final class RangeSlider: UIControl {
         }
     }
 
-    /// Set slider line tint color between handles. Default is red.
-    var colorBetweenHandles: UIColor = .red
+    /// Set slider line tint color between thumbs. Default is red.
+    var colorBetweenThumbs: UIColor = .red
 
     /// Set slider line tint color. Default is dark gray.
     var sliderColor: UIColor = .darkGray
@@ -89,11 +89,11 @@ final class RangeSlider: UIControl {
 
     // MARK: - private properties
 
-    private enum HandleTracking { case none, left, right }
-    private var handleTracking: HandleTracking = .none
+    private enum ThumbTracking { case none, left, right }
+    private var thumbTracking: ThumbTracking = .none
 
     private var step: CGFloat = 20 // This control the value of each step. This value is always fixed to 20.0
-    private var handleDiameter: CGFloat = 25.0
+    private var thumbDiameter: CGFloat = 25.0
 
     private let sliderLine: CALayer = {
         let layer = CALayer()
@@ -101,7 +101,7 @@ final class RangeSlider: UIControl {
         return layer
     }()
 
-    private let sliderLineBetweenHandles: CALayer = {
+    private let sliderLineBetweenThumbs: CALayer = {
         let layer = CALayer()
         layer.backgroundColor = UIColor.red.cgColor
         return layer
@@ -113,7 +113,7 @@ final class RangeSlider: UIControl {
         return layer
     }()
 
-    private let leftHandle: CALayer = {
+    private let leftThumb: CALayer = {
         let layer = CALayer()
         layer.backgroundColor = UIColor.white.cgColor
         layer.borderColor = UIColor.lightGray.cgColor
@@ -123,7 +123,7 @@ final class RangeSlider: UIControl {
         layer.borderWidth = 0.1
         return layer
     }()
-    private let rightHandle: CALayer = {
+    private let rightThumb: CALayer = {
         let layer = CALayer()
         layer.backgroundColor = UIColor.white.cgColor
         layer.borderColor = UIColor.lightGray.cgColor
@@ -184,10 +184,10 @@ final class RangeSlider: UIControl {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        if handleTracking == .none {
+        if thumbTracking == .none {
             updateLineHeight()
             updateColors()
-            updateHandlePositions()
+            updateThumbPositions()
             updateTicks()
         }
     }
@@ -202,39 +202,39 @@ final class RangeSlider: UIControl {
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         let touchLocation: CGPoint = touch.location(in: self)
         let insetExpansion: CGFloat = -30.0
-        let isTouchingLeftHandle: Bool = leftHandle.frame.insetBy(dx: insetExpansion, dy: insetExpansion).contains(touchLocation)
-        let isTouchingRightHandle: Bool = rightHandle.frame.insetBy(dx: insetExpansion, dy: insetExpansion).contains(touchLocation)
+        let isTouchingLeftThumb: Bool = leftThumb.frame.insetBy(dx: insetExpansion, dy: insetExpansion).contains(touchLocation)
+        let isTouchingRightThumb: Bool = rightThumb.frame.insetBy(dx: insetExpansion, dy: insetExpansion).contains(touchLocation)
 
-        guard isTouchingLeftHandle || isTouchingRightHandle else { return false }
+        guard isTouchingLeftThumb || isTouchingRightThumb else { return false }
 
 
-        // the touch was inside one of the handles so we're definitely going to start movign one of them. But the handles might be quite close to each other, so now we need to find out which handle the touch was closest too, and activate that one.
-        let distanceFromLeftHandle: CGFloat = touchLocation.distance(to: leftHandle.frame.center)
-        let distanceFromRightHandle: CGFloat = touchLocation.distance(to: rightHandle.frame.center)
+        // the touch was inside one of the thumbs so we're definitely going to start movign one of them. But the thumbs might be quite close to each other, so now we need to find out which thumb the touch was closest too, and activate that one.
+        let distanceFromLeftThumb: CGFloat = touchLocation.distance(to: leftThumb.frame.center)
+        let distanceFromRightThumb: CGFloat = touchLocation.distance(to: rightThumb.frame.center)
 
-        if distanceFromLeftHandle < distanceFromRightHandle {
-            handleTracking = .left
-        } else if selectedMaxValue == maxValue && leftHandle.frame.midX == rightHandle.frame.midX {
-            handleTracking = .left
+        if distanceFromLeftThumb < distanceFromRightThumb {
+            thumbTracking = .left
+        } else if selectedMaxValue == maxValue && leftThumb.frame.midX == rightThumb.frame.midX {
+            thumbTracking = .left
         } else {
-            handleTracking = .right
+            thumbTracking = .right
         }
 
         return true
     }
 
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        guard handleTracking != .none else { return false }
+        guard thumbTracking != .none else { return false }
 
         let location: CGPoint = touch.location(in: self)
 
-        // find out the percentage along the line we are in x coordinate terms (subtracting half the frames width to account for moving the middle of the handle, not the left hand side)
-        let percentage: CGFloat = (location.x - sliderLine.frame.minX - handleDiameter / 2.0) / (sliderLine.frame.maxX - sliderLine.frame.minX)
+        // find out the percentage along the line we are in x coordinate terms (subtracting half the frames width to account for moving the middle of the thumb, not the left hand side)
+        let percentage: CGFloat = (location.x - sliderLine.frame.minX - thumbDiameter / 2.0) / (sliderLine.frame.maxX - sliderLine.frame.minX)
 
         // multiply that percentage by self.maxValue to get the new selected minimum value
         let selectedValue: CGFloat = percentage * (maxValue - minValue) + minValue
 
-        switch handleTracking {
+        switch thumbTracking {
         case .left:
             selectedMinValue = min(selectedValue, selectedMaxValue)
         case .right:
@@ -255,7 +255,7 @@ final class RangeSlider: UIControl {
     }
 
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        handleTracking = .none
+        thumbTracking = .none
     }
 
     // MARK: - private methods
@@ -265,23 +265,23 @@ final class RangeSlider: UIControl {
         layer.addSublayer(sliderLine)
 
         // draw the track distline
-        layer.addSublayer(sliderLineBetweenHandles)
+        layer.addSublayer(sliderLineBetweenThumbs)
 
         // draw the ticks
         layer.addSublayer(ticksLayer)
         ticksLayer.rangeSlider = self
 
-        // draw the minimum slider handle
-        leftHandle.cornerRadius = handleDiameter / 2.0
-        layer.addSublayer(leftHandle)
+        // draw the minimum slider thumb
+        leftThumb.cornerRadius = thumbDiameter / 2.0
+        layer.addSublayer(leftThumb)
 
-        // draw the maximum slider handle
-        rightHandle.cornerRadius = handleDiameter / 2.0
-        layer.addSublayer(rightHandle)
+        // draw the maximum slider thumb
+        rightThumb.cornerRadius = thumbDiameter / 2.0
+        layer.addSublayer(rightThumb)
 
-        let handleFrame: CGRect = CGRect(x: 0.0, y: 0.0, width: handleDiameter, height: handleDiameter)
-        leftHandle.frame = handleFrame
-        rightHandle.frame = handleFrame
+        let thumbFrame: CGRect = CGRect(x: 0.0, y: 0.0, width: thumbDiameter, height: thumbDiameter)
+        leftThumb.frame = thumbFrame
+        rightThumb.frame = thumbFrame
 
         refresh()
     }
@@ -324,7 +324,7 @@ final class RangeSlider: UIControl {
                                   width: lineRightSide.x - lineLeftSide.x,
                                   height: lineHeight)
         sliderLine.cornerRadius = lineHeight / 2.0
-        sliderLineBetweenHandles.cornerRadius = sliderLine.cornerRadius
+        sliderLineBetweenThumbs.cornerRadius = sliderLine.cornerRadius
     }
 
     private func updateTicks() {
@@ -343,25 +343,25 @@ final class RangeSlider: UIControl {
 
     private func updateColors() {
         sliderLine.backgroundColor = sliderColor.cgColor
-        sliderLineBetweenHandles.backgroundColor = colorBetweenHandles.cgColor
+        sliderLineBetweenThumbs.backgroundColor = colorBetweenThumbs.cgColor
     }
 
-    private func updateHandlePositions() {
-        leftHandle.position = CGPoint(x: xPositionAlongLine(for: selectedMinValue),
+    private func updateThumbPositions() {
+        leftThumb.position = CGPoint(x: xPositionAlongLine(for: selectedMinValue),
                                       y: sliderLine.frame.midY)
 
-        rightHandle.position = CGPoint(x: xPositionAlongLine(for: selectedMaxValue),
+        rightThumb.position = CGPoint(x: xPositionAlongLine(for: selectedMaxValue),
                                        y: sliderLine.frame.midY)
 
         // positioning for the dist slider line
-        sliderLineBetweenHandles.frame = CGRect(x: leftHandle.position.x,
+        sliderLineBetweenThumbs.frame = CGRect(x: leftThumb.position.x,
                                                 y: sliderLine.frame.minY,
-                                                width: rightHandle.position.x - leftHandle.position.x,
+                                                width: rightThumb.position.x - leftThumb.position.x,
                                                 height: lineHeight)
     }
 
     private func refresh() {
-        // handle step(jump) feature ------------------>
+        // thumb's step(jump) feature ------------------>
         selectedMinValue = CGFloat(roundf(Float(selectedMinValue / step))) * step
         if let previousStepMinValue = previousStepMinValue, previousStepMinValue != selectedMinValue {
             hapticFeedback()
@@ -378,7 +378,7 @@ final class RangeSlider: UIControl {
         let diff: CGFloat = selectedMaxValue - selectedMinValue
 
         if diff < minDistance {
-            switch handleTracking {
+            switch thumbTracking {
             case .left:
                 selectedMinValue = selectedMaxValue - minDistance
             case .right:
@@ -387,7 +387,7 @@ final class RangeSlider: UIControl {
                 break
             }
         } else if diff > maxDistance {
-            switch handleTracking {
+            switch thumbTracking {
             case .left:
                 selectedMinValue = selectedMaxValue - maxDistance
             case .right:
@@ -408,14 +408,14 @@ final class RangeSlider: UIControl {
         // update the frames in a transaction so that the tracking doesn't continue until the frame has moved.
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-        updateHandlePositions()
+        updateThumbPositions()
         updateTicks()
         CATransaction.commit()
 
         updateColors()
 
         // send the event notification
-        guard handleTracking != .none else { return }
+        guard thumbTracking != .none else { return }
         sendActions(for: .valueChanged)
     }
 

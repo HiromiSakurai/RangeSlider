@@ -49,7 +49,7 @@ final class TicksLayer: CALayer {
             let color: CGColor
 
             if slider.selectedMinValue.f <= tickValue && tickValue <= slider.selectedMaxValue.f {
-                color = slider.colorBetweenHandles.cgColor
+                color = slider.colorBetweenThumbs.cgColor
             }  else {
                 color = slider.sliderColor.cgColor
             }
