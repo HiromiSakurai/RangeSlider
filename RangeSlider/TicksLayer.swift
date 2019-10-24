@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 final class TicksLayer: CALayer {
-    weak var rangeSlider: RangeSeekSlider?
+    weak var rangeSlider: RangeSlider?
 
     private let tickWidth: CGFloat = 3
 

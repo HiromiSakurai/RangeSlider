@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class RangeSeekSlider: UIControl {
+final class RangeSlider: UIControl {
 
     // MARK: - initializers
 

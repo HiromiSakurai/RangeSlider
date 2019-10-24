@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let seekSlider = RangeSeekSlider(frame: .zero)
+    let seekSlider = RangeSlider(frame: .zero)
 
     let priceLabel: UILabel = {
         let label = UILabel()
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
         seekSlider.dataSource = [0, 500, 1000, 2000, 4000, 6000, 8000, 10000]
     }
 
-    @objc func rangeSliderValueChanged(_ rangeSlider: RangeSeekSlider) {
+    @objc func rangeSliderValueChanged(_ rangeSlider: RangeSlider) {
         //print("value changed --- min:\(rangeSlider.selectedMinValue) max:\(rangeSlider.selectedMaxValue)")
         priceLabel.text = "\(rangeSlider.selectedPrice.lower)$ ~ \(rangeSlider.selectedPrice.higher)$"
     }
