@@ -19,6 +19,10 @@ final class TicksLayer: CALayer {
             return
         }
 
+        guard !slider.dataSource.isEmpty else {
+            return
+        }
+
         let ticksCount: Int = slider.dataSource.count
         let stepCount: Int = ticksCount - 1
         let stepDistance: CGFloat = bounds.width / stepCount.cgf

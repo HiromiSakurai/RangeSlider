@@ -30,7 +30,7 @@ final class RangeSlider: UIControl {
     /// Set data source as Int array e.g) [0, 500, 1000, 2000, 3000, 4000]
     var dataSource: [Int] = [] {
         didSet {
-            maxValue = (20 * (dataSource.count - 1)).cgf
+            maxValue = (step.i * (dataSource.count - 1)).cgf
             selectedMaxValue = maxValue
             selectedIndex = (lower: 0, higher: dataSource.lastIndex)
         }
@@ -92,7 +92,7 @@ final class RangeSlider: UIControl {
     private enum HandleTracking { case none, left, right }
     private var handleTracking: HandleTracking = .none
 
-    private var step: CGFloat = 20 // This control the value of each step. This value is fixed to 20.0
+    private var step: CGFloat = 20 // This control the value of each step. This value is always fixed to 20.0
     private var handleDiameter: CGFloat = 25.0
 
     private let sliderLine: CALayer = {
@@ -204,7 +204,7 @@ final class RangeSlider: UIControl {
         let distanceFromLeftHandle: CGFloat = touchLocation.distance(to: leftHandle.frame.center)
         let distanceFromRightHandle: CGFloat = touchLocation.distance(to: rightHandle.frame.center)
 
-        if distanceFromLeftHandle < distanceFromRightHandle {//} && !disableRange {
+        if distanceFromLeftHandle < distanceFromRightHandle {
             handleTracking = .left
         } else if selectedMaxValue == maxValue && leftHandle.frame.midX == rightHandle.frame.midX {
             handleTracking = .left

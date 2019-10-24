@@ -27,9 +27,7 @@ class ViewController: UIViewController {
         view.addSubview(priceLabel)
         priceLabel.topAnchor.constraint(equalTo: seekSlider.bottomAnchor, constant: 100).isActive = true
         priceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    }
 
-    override func viewDidLayoutSubviews() {
         let margin: CGFloat = 20
         let width = view.bounds.width - 2 * margin
         let height: CGFloat = 30
